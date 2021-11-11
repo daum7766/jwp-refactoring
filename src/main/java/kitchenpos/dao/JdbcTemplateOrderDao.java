@@ -1,6 +1,6 @@
 package kitchenpos.dao;
 
-import kitchenpos.domain.Order;
+import kitchenpos.dto.OrderDto;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Repository
 public class JdbcTemplateOrderDao implements OrderDao {
-    private static final String TABLE_NAME = "orders";
+    private static final String TABLE_NAME = "orderDtos";
     private static final String KEY_COLUMN_NAME = "id";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -34,7 +34,7 @@ public class JdbcTemplateOrderDao implements OrderDao {
     }
 
     @Override
-    public Order save(final Order entity) {
+    public OrderDto save(final OrderDto entity) {
         if (Objects.isNull(entity.getId())) {
             final SqlParameterSource parameters = new BeanPropertySqlParameterSource(entity);
             final Number key = jdbcInsert.executeAndReturnKey(parameters);
@@ -45,7 +45,7 @@ public class JdbcTemplateOrderDao implements OrderDao {
     }
 
     @Override
-    public Optional<Order> findById(final Long id) {
+    public Optional<OrderDto> findById(final Long id) {
         try {
             return Optional.of(select(id));
         } catch (final EmptyResultDataAccessException e) {
@@ -54,15 +54,15 @@ public class JdbcTemplateOrderDao implements OrderDao {
     }
 
     @Override
-    public List<Order> findAll() {
-        final String sql = "SELECT id, order_table_id, order_status, ordered_time FROM orders";
+    public List<OrderDto> findAll() {
+        final String sql = "SELECT id, order_table_id, order_status, ordered_time FROM orderDtos";
         return jdbcTemplate.query(sql, (resultSet, rowNumber) -> toEntity(resultSet));
     }
 
     @Override
     public boolean existsByOrderTableIdAndOrderStatusIn(final Long orderTableId, final List<String> orderStatuses) {
         final String sql = "SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END" +
-                " FROM orders WHERE order_table_id = (:orderTableId) AND order_status IN (:orderStatuses)";
+                " FROM orderDtos WHERE order_table_id = (:orderTableId) AND order_status IN (:orderStatuses)";
         final SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("orderTableId", orderTableId)
                 .addValue("orderStatuses", orderStatuses);
@@ -72,30 +72,30 @@ public class JdbcTemplateOrderDao implements OrderDao {
     @Override
     public boolean existsByOrderTableIdInAndOrderStatusIn(final List<Long> orderTableIds, final List<String> orderStatuses) {
         final String sql = "SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END" +
-                " FROM orders WHERE order_table_id IN (:orderTableIds) AND order_status IN (:orderStatuses)";
+                " FROM orderDtos WHERE order_table_id IN (:orderTableIds) AND order_status IN (:orderStatuses)";
         final SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("orderTableIds", orderTableIds)
                 .addValue("orderStatuses", orderStatuses);
         return jdbcTemplate.queryForObject(sql, parameters, Boolean.class);
     }
 
-    private Order select(final Long id) {
-        final String sql = "SELECT id, order_table_id, order_status, ordered_time FROM orders WHERE id = (:id)";
+    private OrderDto select(final Long id) {
+        final String sql = "SELECT id, order_table_id, order_status, ordered_time FROM orderDtos WHERE id = (:id)";
         final SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", id);
         return jdbcTemplate.queryForObject(sql, parameters, (resultSet, rowNumber) -> toEntity(resultSet));
     }
 
-    private void update(final Order entity) {
-        final String sql = "UPDATE orders SET order_status = (:orderStatus) WHERE id = (:id)";
+    private void update(final OrderDto entity) {
+        final String sql = "UPDATE orderDtos SET order_status = (:orderStatus) WHERE id = (:id)";
         final SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("orderStatus", entity.getOrderStatus())
                 .addValue("id", entity.getId());
         jdbcTemplate.update(sql, parameters);
     }
 
-    private Order toEntity(final ResultSet resultSet) throws SQLException {
-        final Order entity = new Order();
+    private OrderDto toEntity(final ResultSet resultSet) throws SQLException {
+        final OrderDto entity = new OrderDto();
         entity.setId(resultSet.getLong(KEY_COLUMN_NAME));
         entity.setOrderTableId(resultSet.getLong("order_table_id"));
         entity.setOrderStatus(resultSet.getString("order_status"));

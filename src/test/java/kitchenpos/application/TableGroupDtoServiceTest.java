@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import kitchenpos.dao.OrderDao;
 import kitchenpos.dao.OrderTableDao;
 import kitchenpos.dao.TableGroupDao;
-import kitchenpos.domain.OrderTable;
-import kitchenpos.domain.TableGroup;
+import kitchenpos.dto.OrderTableDto;
+import kitchenpos.dto.TableGroupDto;
 import kitchenpos.factory.KitchenPosFactory;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +22,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
 @MockitoSettings(strictness = Strictness.LENIENT)
-class TableGroupServiceTest {
+class TableGroupDtoServiceTest {
 
     @Mock
     private OrderDao orderDao;
@@ -40,17 +40,17 @@ class TableGroupServiceTest {
     @DisplayName("그룹을 생성한다.")
     void create() {
         //given
-        TableGroup request = KitchenPosFactory.getStandardTableGroup();
+        TableGroupDto request = KitchenPosFactory.getStandardTableGroup();
         given(orderTableDao.findAllByIdIn(any())).willReturn(request.getOrderTables());
         given(tableGroupDao.save(request)).willReturn(request);
 
         //when
-        TableGroup tableGroup = tableGroupService.create(request);
+        TableGroupDto tableGroupDto = tableGroupService.create(request);
 
         //then
-        for (OrderTable orderTable : tableGroup.getOrderTables()) {
-            assertThat(orderTable.isEmpty()).isFalse();
-            assertThat(orderTable.getTableGroupId()).isEqualTo(1L);
+        for (OrderTableDto orderTableDto : tableGroupDto.getOrderTables()) {
+            assertThat(orderTableDto.isEmpty()).isFalse();
+            assertThat(orderTableDto.getTableGroupId()).isEqualTo(1L);
         }
     }
 
@@ -58,7 +58,7 @@ class TableGroupServiceTest {
     @DisplayName("그룹을 생성할때 테이블이 2개이상 포함되지 않는다면 에러가 발생한다.")
     void createExceptionWithOrderTableSizeLessThenTwo() {
         //given
-        TableGroup request = KitchenPosFactory.getStandardTableGroup();
+        TableGroupDto request = KitchenPosFactory.getStandardTableGroup();
         request.setOrderTables(new ArrayList<>());
 
         //when
@@ -72,7 +72,7 @@ class TableGroupServiceTest {
     @DisplayName("요청한 테이블 그룹이 db 정보와 맞지 않으면 에러가 발생한다.")
     void createExceptionWithOrderTableSizeNotEquals() {
         //given
-        TableGroup request = KitchenPosFactory.getStandardTableGroup();
+        TableGroupDto request = KitchenPosFactory.getStandardTableGroup();
         given(orderTableDao.findAllByIdIn(any()))
             .willReturn(KitchenPosFactory.getStandardOrderTables());
 
@@ -87,7 +87,7 @@ class TableGroupServiceTest {
     @DisplayName("요청한 테이블에 이미 그룹이 있다면 에러가 발생한다.")
     void createExceptionWithExistTableGroup() {
         //given
-        TableGroup request = KitchenPosFactory.getStandardTableGroup();
+        TableGroupDto request = KitchenPosFactory.getStandardTableGroup();
         request.getOrderTables().get(0).setTableGroupId(2L);
         given(orderTableDao.findAllByIdIn(any())).willReturn(request.getOrderTables());
 

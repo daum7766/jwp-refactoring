@@ -7,7 +7,7 @@ import static org.mockito.BDDMockito.given;
 import java.math.BigDecimal;
 import java.util.List;
 import kitchenpos.dao.ProductDao;
-import kitchenpos.domain.Product;
+import kitchenpos.dto.ProductDto;
 import kitchenpos.factory.KitchenPosFactory;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,10 +21,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class ProductServiceTest {
+class ProductDtoServiceTest {
 
-    private final Product standardProduct = KitchenPosFactory.getStandardProduct();
-    private final List<Product> standardProducts = KitchenPosFactory.getStandardProducts();
+    private final ProductDto standardProductDto = KitchenPosFactory.getStandardProduct();
+    private final List<ProductDto> standardProductDtos = KitchenPosFactory.getStandardProducts();
 
     @Mock
     private ProductDao productDao;
@@ -41,26 +41,26 @@ class ProductServiceTest {
     @DisplayName("상품을 생성한다.")
     void create() {
         //given
-        Product request = new Product();
-        request.setName(standardProduct.getName());
-        request.setPrice(standardProduct.getPrice());
-        given(productDao.save(request)).willReturn(standardProduct);
+        ProductDto request = new ProductDto();
+        request.setName(standardProductDto.getName());
+        request.setPrice(standardProductDto.getPrice());
+        given(productDao.save(request)).willReturn(standardProductDto);
 
         //when
-        Product product = productService.create(request);
+        ProductDto productDto = productService.create(request);
 
         //then
-        assertThat(product.getId()).isNotZero();
-        assertThat(product).usingRecursiveComparison()
-            .isEqualTo(standardProduct);
+        assertThat(productDto.getId()).isNotZero();
+        assertThat(productDto).usingRecursiveComparison()
+            .isEqualTo(standardProductDto);
     }
 
     @Test
     @DisplayName("가격이 null 이라면 에러가 발생한다.")
     void createWithPriceNull() {
         //given
-        Product request = new Product();
-        request.setName(standardProduct.getName());
+        ProductDto request = new ProductDto();
+        request.setName(standardProductDto.getName());
 
         //when
         ThrowingCallable callable = () -> productService.create(request);
@@ -74,8 +74,8 @@ class ProductServiceTest {
     @DisplayName("가격이 음수라면 에러가 발생한다.")
     void createWithMinusPrice(int price) {
         //given
-        Product request = new Product();
-        request.setName(standardProduct.getName());
+        ProductDto request = new ProductDto();
+        request.setName(standardProductDto.getName());
         request.setPrice(new BigDecimal(price));
 
         //when
@@ -89,11 +89,11 @@ class ProductServiceTest {
     @DisplayName("모든 상품을 가져온다.")
     void list() {
         //given
-        given(productDao.findAll()).willReturn(standardProducts);
+        given(productDao.findAll()).willReturn(standardProductDtos);
         //when
-        List<Product> products = productService.list();
+        List<ProductDto> productDtos = productService.list();
         //then
-        assertThat(products).hasSize(standardProducts.size())
-            .containsExactly(standardProduct);
+        assertThat(productDtos).hasSize(standardProductDtos.size())
+            .containsExactly(standardProductDto);
     }
 }

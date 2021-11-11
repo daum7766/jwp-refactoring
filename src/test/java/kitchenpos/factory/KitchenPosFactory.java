@@ -4,139 +4,139 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import kitchenpos.domain.Menu;
-import kitchenpos.domain.MenuGroup;
-import kitchenpos.domain.MenuProduct;
-import kitchenpos.domain.Order;
-import kitchenpos.domain.OrderLineItem;
+import kitchenpos.dto.MenuDto;
+import kitchenpos.dto.MenuGroupDto;
+import kitchenpos.dto.MenuProductDto;
+import kitchenpos.dto.OrderDto;
+import kitchenpos.dto.OrderLineItemDto;
 import kitchenpos.domain.OrderStatus;
-import kitchenpos.domain.OrderTable;
-import kitchenpos.domain.Product;
-import kitchenpos.domain.TableGroup;
+import kitchenpos.dto.OrderTableDto;
+import kitchenpos.dto.ProductDto;
+import kitchenpos.dto.TableGroupDto;
 
 public class KitchenPosFactory {
 
     private KitchenPosFactory() {}
 
-    public static MenuGroup getStandardMenuGroup() {
-        MenuGroup standardMenuGroup = new MenuGroup();
-        standardMenuGroup.setName("메뉴그룹이름");
-        standardMenuGroup.setId(1L);
-        return standardMenuGroup;
+    public static MenuGroupDto getStandardMenuGroup() {
+        MenuGroupDto standardMenuGroupDto = new MenuGroupDto();
+        standardMenuGroupDto.setName("메뉴그룹이름");
+        standardMenuGroupDto.setId(1L);
+        return standardMenuGroupDto;
     }
 
-    public static List<MenuGroup> getStandardMenuGroups() {
-        List<MenuGroup> standardMenuGroups = new ArrayList<>();
-        standardMenuGroups.add(getStandardMenuGroup());
-        return standardMenuGroups;
+    public static List<MenuGroupDto> getStandardMenuGroups() {
+        List<MenuGroupDto> standardMenuGroupDtos = new ArrayList<>();
+        standardMenuGroupDtos.add(getStandardMenuGroup());
+        return standardMenuGroupDtos;
     }
 
-    public static Product getStandardProduct() {
-        Product standardProduct = new Product();
-        standardProduct.setId(1L);
-        standardProduct.setName("상품 이름");
-        standardProduct.setPrice(new BigDecimal(1000));
-        return standardProduct;
+    public static ProductDto getStandardProduct() {
+        ProductDto standardProductDto = new ProductDto();
+        standardProductDto.setId(1L);
+        standardProductDto.setName("상품 이름");
+        standardProductDto.setPrice(new BigDecimal(1000));
+        return standardProductDto;
     }
 
-    public static List<Product> getStandardProducts() {
-        List<Product> standardProducts = new ArrayList<>();
-        standardProducts.add(getStandardProduct());
-        return standardProducts;
+    public static List<ProductDto> getStandardProducts() {
+        List<ProductDto> standardProductDtos = new ArrayList<>();
+        standardProductDtos.add(getStandardProduct());
+        return standardProductDtos;
     }
 
-    public static MenuProduct getStandardMenuProduct() {
-        MenuProduct standardMenuProduct = new MenuProduct();
-        standardMenuProduct.setProductId(1L);
-        standardMenuProduct.setMenuId(1L);
-        standardMenuProduct.setSeq(1L);
-        standardMenuProduct.setQuantity(1L);
-        return standardMenuProduct;
+    public static MenuProductDto getStandardMenuProduct() {
+        MenuProductDto standardMenuProductDto = new MenuProductDto();
+        standardMenuProductDto.setProductId(1L);
+        standardMenuProductDto.setMenuId(1L);
+        standardMenuProductDto.setSeq(1L);
+        standardMenuProductDto.setQuantity(1L);
+        return standardMenuProductDto;
     }
 
-    public static List<MenuProduct> getStandardMenuProducts() {
-        List<MenuProduct> standardMenuProducts = new ArrayList<>();
-        standardMenuProducts.add(getStandardMenuProduct());
-        return standardMenuProducts;
+    public static List<MenuProductDto> getStandardMenuProducts() {
+        List<MenuProductDto> standardMenuProductDtos = new ArrayList<>();
+        standardMenuProductDtos.add(getStandardMenuProduct());
+        return standardMenuProductDtos;
     }
 
-    public static Menu getStandardMenu() {
-        Menu standardMenu = new Menu();
-        standardMenu.setName("메뉴이름");
-        standardMenu.setId(1L);
-        standardMenu.setPrice(new BigDecimal(1000));
-        standardMenu.setMenuGroupId(1L);
-        standardMenu.setMenuProducts(getStandardMenuProducts());
-        return standardMenu;
+    public static MenuDto getStandardMenu() {
+        MenuDto standardMenuDto = new MenuDto();
+        standardMenuDto.setName("메뉴이름");
+        standardMenuDto.setId(1L);
+        standardMenuDto.setPrice(new BigDecimal(1000));
+        standardMenuDto.setMenuGroupId(1L);
+        standardMenuDto.setMenuProducts(getStandardMenuProducts());
+        return standardMenuDto;
     }
 
-    public static List<Menu> getStandardMenus() {
-        List<Menu> standardMenus = new ArrayList<>();
-        standardMenus.add(getStandardMenu());
-        return standardMenus;
+    public static List<MenuDto> getStandardMenus() {
+        List<MenuDto> standardMenuDtos = new ArrayList<>();
+        standardMenuDtos.add(getStandardMenu());
+        return standardMenuDtos;
     }
 
-    public static Order getStandardOrder() {
-        Order standardOrder = new Order();
-        standardOrder.setId(1L);
-        standardOrder.setOrderTableId(1L);
-        standardOrder.setOrderedTime(LocalDateTime.now());
-        standardOrder.setOrderLineItems(getStandardOrderLineItems());
-        standardOrder.setOrderStatus(OrderStatus.COOKING.name());
-        return standardOrder;
+    public static OrderDto getStandardOrder() {
+        OrderDto standardOrderDto = new OrderDto();
+        standardOrderDto.setId(1L);
+        standardOrderDto.setOrderTableId(1L);
+        standardOrderDto.setOrderedTime(LocalDateTime.now());
+        standardOrderDto.setOrderLineItems(getStandardOrderLineItems());
+        standardOrderDto.setOrderStatus(OrderStatus.COOKING.name());
+        return standardOrderDto;
     }
 
-    public static List<Order> getStandardOrders() {
-        List<Order> standardOrders = new ArrayList<>();
-        standardOrders.add(getStandardOrder());
-        return standardOrders;
+    public static List<OrderDto> getStandardOrders() {
+        List<OrderDto> standardOrderDtos = new ArrayList<>();
+        standardOrderDtos.add(getStandardOrder());
+        return standardOrderDtos;
     }
 
-    public static OrderLineItem getStandardOrderLineItem() {
-        OrderLineItem orderLineItem = new OrderLineItem();
-        orderLineItem.setOrderId(1L);
-        orderLineItem.setMenuId(1L);
-        orderLineItem.setQuantity(1L);
-        orderLineItem.setSeq(1L);
-        return orderLineItem;
+    public static OrderLineItemDto getStandardOrderLineItem() {
+        OrderLineItemDto orderLineItemDto = new OrderLineItemDto();
+        orderLineItemDto.setOrderId(1L);
+        orderLineItemDto.setMenuId(1L);
+        orderLineItemDto.setQuantity(1L);
+        orderLineItemDto.setSeq(1L);
+        return orderLineItemDto;
     }
 
-    public static List<OrderLineItem> getStandardOrderLineItems() {
-        List<OrderLineItem> standardOrderLineItems = new ArrayList<>();
-        standardOrderLineItems.add(getStandardOrderLineItem());
-        return standardOrderLineItems;
+    public static List<OrderLineItemDto> getStandardOrderLineItems() {
+        List<OrderLineItemDto> standardOrderLineItemDtos = new ArrayList<>();
+        standardOrderLineItemDtos.add(getStandardOrderLineItem());
+        return standardOrderLineItemDtos;
     }
 
-    public static OrderTable getStandardOrderTable() {
-        OrderTable standardOrderTable = new OrderTable();
-        standardOrderTable.setId(1L);
-        standardOrderTable.setTableGroupId(1L);
-        standardOrderTable.setEmpty(false);
-        standardOrderTable.setNumberOfGuests(1);
-        return standardOrderTable;
+    public static OrderTableDto getStandardOrderTable() {
+        OrderTableDto standardOrderTableDto = new OrderTableDto();
+        standardOrderTableDto.setId(1L);
+        standardOrderTableDto.setTableGroupId(1L);
+        standardOrderTableDto.setEmpty(false);
+        standardOrderTableDto.setNumberOfGuests(1);
+        return standardOrderTableDto;
     }
 
-    public static List<OrderTable> getStandardOrderTables() {
-        List<OrderTable> standardOrderTables = new ArrayList<>();
-        standardOrderTables.add(getStandardOrderTable());
-        return standardOrderTables;
+    public static List<OrderTableDto> getStandardOrderTables() {
+        List<OrderTableDto> standardOrderTableDtos = new ArrayList<>();
+        standardOrderTableDtos.add(getStandardOrderTable());
+        return standardOrderTableDtos;
     }
 
-    public static TableGroup getStandardTableGroup() {
-        List<OrderTable> standardOrderTables = getStandardOrderTables();
-        OrderTable standardOrderTable = getStandardOrderTable();
-        standardOrderTable.setId(2L);
-        standardOrderTable.setTableGroupId(null);
-        standardOrderTable.setEmpty(true);
-        standardOrderTables.get(0).setEmpty(true);
-        standardOrderTables.get(0).setTableGroupId(null);
-        standardOrderTables.add(standardOrderTable);
+    public static TableGroupDto getStandardTableGroup() {
+        List<OrderTableDto> standardOrderTableDtos = getStandardOrderTables();
+        OrderTableDto standardOrderTableDto = getStandardOrderTable();
+        standardOrderTableDto.setId(2L);
+        standardOrderTableDto.setTableGroupId(null);
+        standardOrderTableDto.setEmpty(true);
+        standardOrderTableDtos.get(0).setEmpty(true);
+        standardOrderTableDtos.get(0).setTableGroupId(null);
+        standardOrderTableDtos.add(standardOrderTableDto);
 
-        TableGroup standardTableGroup = new TableGroup();
-        standardTableGroup.setId(1L);
+        TableGroupDto standardTableGroupDto = new TableGroupDto();
+        standardTableGroupDto.setId(1L);
 
-        standardTableGroup.setOrderTables(standardOrderTables);
-        standardTableGroup.setCreatedDate(LocalDateTime.now());
-        return standardTableGroup;
+        standardTableGroupDto.setOrderTables(standardOrderTableDtos);
+        standardTableGroupDto.setCreatedDate(LocalDateTime.now());
+        return standardTableGroupDto;
     }
 }
