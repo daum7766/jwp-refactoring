@@ -29,6 +29,7 @@ public class Menu {
     }
 
     private Menu(Builder builder) {
+        validate(builder);
         this.id = builder.id;
         this.name = builder.name;
         this.price = builder.price;
@@ -36,17 +37,12 @@ public class Menu {
         this.menuProducts = new ArrayList<>(builder.menuProducts);
     }
 
-    private static Menu valueOf(Builder builder) {
-        validate(builder);
-        return new Menu(builder);
-    }
-
-    private static void validate(Builder builder) {
+    private void validate(Builder builder) {
         validatePrice(builder.price);
         validatePriceSum(builder.price, builder.menuProducts);
     }
 
-    private static void validatePriceSum(BigDecimal price, List<MenuProduct> menuProducts) {
+    private void validatePriceSum(BigDecimal price, List<MenuProduct> menuProducts) {
         BigDecimal sum = BigDecimal.ZERO;
         for (MenuProduct menuProduct : menuProducts) {
             sum = sum.add(menuProduct.price());
@@ -60,6 +56,26 @@ public class Menu {
         if (Objects.isNull(price) || price.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException();
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public MenuGroup getMenuGroup() {
+        return menuGroup;
+    }
+
+    public List<MenuProduct> getMenuProducts() {
+        return new ArrayList<>(menuProducts);
     }
 
     public static class Builder {
@@ -101,7 +117,7 @@ public class Menu {
         }
 
         public Menu build() {
-            return Menu.valueOf(this);
+            return new Menu(this);
         }
     }
 }

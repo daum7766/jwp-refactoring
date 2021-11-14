@@ -64,7 +64,7 @@ public class KitchenPosDtoFactory {
         MenuDto standardMenuDto = new MenuDto();
         standardMenuDto.setName("메뉴이름");
         standardMenuDto.setId(1L);
-        standardMenuDto.setPrice(new BigDecimal(1000));
+        standardMenuDto.setPrice(new BigDecimal(1000L));
         standardMenuDto.setMenuGroupId(1L);
         standardMenuDto.setMenuProducts(getStandardMenuProducts());
         return standardMenuDto;

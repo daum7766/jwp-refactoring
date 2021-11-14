@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 import kitchenpos.domain.Product;
 import kitchenpos.dto.ProductDto;
+import kitchenpos.factory.KitchenPosDtoFactory;
 import kitchenpos.factory.KitchenPosFactory;
 import kitchenpos.repository.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -32,9 +33,7 @@ class ProductServiceTest {
     @DisplayName("상품을 생성한다.")
     void create() {
         //given
-        ProductDto request = new ProductDto();
-        request.setName(standardProduct.getName());
-        request.setPrice(standardProduct.getPrice());
+        ProductDto request = KitchenPosDtoFactory.getStandardProduct();
 
         given(productRepository.save(any())).willReturn(standardProduct);
 

@@ -2,9 +2,9 @@ package kitchenpos.dto;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 
 public class MenuDto {
+
     private Long id;
     private String name;
     private BigDecimal price;

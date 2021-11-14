@@ -1,6 +1,7 @@
 package kitchenpos.dto;
 
 public class MenuProductDto {
+
     private Long seq;
     private Long menuId;
     private Long productId;

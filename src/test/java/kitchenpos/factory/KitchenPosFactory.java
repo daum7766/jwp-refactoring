@@ -4,11 +4,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import kitchenpos.domain.Menu;
 import kitchenpos.domain.MenuGroup;
+import kitchenpos.domain.MenuProduct;
 import kitchenpos.domain.OrderStatus;
 import kitchenpos.domain.Product;
 import kitchenpos.dto.MenuDto;
-import kitchenpos.dto.MenuGroupDto;
 import kitchenpos.dto.MenuProductDto;
 import kitchenpos.dto.OrderDto;
 import kitchenpos.dto.OrderLineItemDto;
@@ -40,35 +41,30 @@ public class KitchenPosFactory {
         return standardMenuGroups;
     }
 
-    public static MenuProductDto getStandardMenuProduct() {
-        MenuProductDto standardMenuProductDto = new MenuProductDto();
-        standardMenuProductDto.setProductId(1L);
-        standardMenuProductDto.setMenuId(1L);
-        standardMenuProductDto.setSeq(1L);
-        standardMenuProductDto.setQuantity(1L);
-        return standardMenuProductDto;
+    public static MenuProduct getStandardMenuProduct() {
+        return new MenuProduct(1L, getStandardProduct(), 1);
     }
 
-    public static List<MenuProductDto> getStandardMenuProducts() {
-        List<MenuProductDto> standardMenuProductDtos = new ArrayList<>();
-        standardMenuProductDtos.add(getStandardMenuProduct());
-        return standardMenuProductDtos;
+    public static List<MenuProduct> getStandardMenuProducts() {
+        List<MenuProduct> standardMenuProducts = new ArrayList<>();
+        standardMenuProducts.add(getStandardMenuProduct());
+        return standardMenuProducts;
     }
 
-    public static MenuDto getStandardMenu() {
-        MenuDto standardMenuDto = new MenuDto();
-        standardMenuDto.setName("메뉴이름");
-        standardMenuDto.setId(1L);
-        standardMenuDto.setPrice(new BigDecimal(1000));
-        standardMenuDto.setMenuGroupId(1L);
-        standardMenuDto.setMenuProducts(getStandardMenuProducts());
-        return standardMenuDto;
+    public static Menu getStandardMenu() {
+        return new Menu.Builder()
+            .menuGroup(getStandardMenuGroup())
+            .id(1L)
+            .price(1000L)
+            .name("메뉴이름")
+            .menuProducts(getStandardMenuProducts())
+            .build();
     }
 
-    public static List<MenuDto> getStandardMenus() {
-        List<MenuDto> standardMenuDtos = new ArrayList<>();
-        standardMenuDtos.add(getStandardMenu());
-        return standardMenuDtos;
+    public static List<Menu> getStandardMenus() {
+        List<Menu> standardMenus = new ArrayList<>();
+        standardMenus.add(getStandardMenu());
+        return standardMenus;
     }
 
     public static OrderDto getStandardOrder() {

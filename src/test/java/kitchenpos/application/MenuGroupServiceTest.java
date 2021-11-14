@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 import kitchenpos.domain.MenuGroup;
 import kitchenpos.dto.MenuGroupDto;
+import kitchenpos.factory.KitchenPosDtoFactory;
 import kitchenpos.factory.KitchenPosFactory;
 import kitchenpos.repository.MenuGroupRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -32,8 +33,7 @@ class MenuGroupServiceTest {
     @DisplayName("그룹 생성 테스트")
     void create() {
         //given
-        MenuGroupDto request = new MenuGroupDto();
-        request.setName(standardMenuGroup.getName());
+        MenuGroupDto request = KitchenPosDtoFactory.getStandardMenuGroup();
 
         given(menuGroupRepository.save(any())).willReturn(standardMenuGroup);
 
