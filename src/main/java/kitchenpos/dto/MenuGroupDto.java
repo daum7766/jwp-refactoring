@@ -1,8 +1,15 @@
 package kitchenpos.dto;
 
+import kitchenpos.domain.MenuGroup;
+
 public class MenuGroupDto {
+
     private Long id;
     private String name;
+
+    public MenuGroup toMenuGroup() {
+        return new MenuGroup(id, name);
+    }
 
     public Long getId() {
         return id;

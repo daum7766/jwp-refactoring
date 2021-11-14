@@ -104,14 +104,29 @@
   - [x] request, response 분리
   - [x] 도메인에서 검증하기
   - [x] JPA와 연동하기
-- [ ] MenuGroup 리팩터링
-  - [ ] request, response 분리
-  - [ ] JPA와 연동하기
+- [x] MenuGroup 리팩터링
+  - [x] request, response 분리
+  - [x] JPA와 연동하기
 - [ ] MenuProduct 리팩터링
   - [ ] request, response 분리
   - [ ] 연산로직 추가
   - [ ] JPA와 연동하기
 - [ ] Menu 리팩터링
+  - [ ] request, response 분리
+  - [ ] 도메인에서 검증하기
+  - [ ] 연산로직 추가
+  - [ ] JPA와 연동하기
+- [ ] Order 리팩터링
+  - [ ] request, response 분리
+  - [ ] 도메인에서 검증하기
+  - [ ] 연산로직 추가
+  - [ ] JPA와 연동하기
+- [ ] Table 리팩터링
+  - [ ] request, response 분리
+  - [ ] 도메인에서 검증하기
+  - [ ] 연산로직 추가
+  - [ ] JPA와 연동하기
+- [ ] TableGroup 리팩터링
   - [ ] request, response 분리
   - [ ] 도메인에서 검증하기
   - [ ] 연산로직 추가
