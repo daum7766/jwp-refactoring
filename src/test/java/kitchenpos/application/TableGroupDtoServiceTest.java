@@ -12,7 +12,7 @@ import kitchenpos.dao.OrderTableDao;
 import kitchenpos.dao.TableGroupDao;
 import kitchenpos.dto.OrderTableDto;
 import kitchenpos.dto.TableGroupDto;
-import kitchenpos.factory.KitchenPosFactory;
+import kitchenpos.factory.KitchenPosDtoFactory;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ class TableGroupDtoServiceTest {
     @DisplayName("그룹을 생성한다.")
     void create() {
         //given
-        TableGroupDto request = KitchenPosFactory.getStandardTableGroup();
+        TableGroupDto request = KitchenPosDtoFactory.getStandardTableGroup();
         given(orderTableDao.findAllByIdIn(any())).willReturn(request.getOrderTables());
         given(tableGroupDao.save(request)).willReturn(request);
 
@@ -58,7 +58,7 @@ class TableGroupDtoServiceTest {
     @DisplayName("그룹을 생성할때 테이블이 2개이상 포함되지 않는다면 에러가 발생한다.")
     void createExceptionWithOrderTableSizeLessThenTwo() {
         //given
-        TableGroupDto request = KitchenPosFactory.getStandardTableGroup();
+        TableGroupDto request = KitchenPosDtoFactory.getStandardTableGroup();
         request.setOrderTables(new ArrayList<>());
 
         //when
@@ -72,9 +72,9 @@ class TableGroupDtoServiceTest {
     @DisplayName("요청한 테이블 그룹이 db 정보와 맞지 않으면 에러가 발생한다.")
     void createExceptionWithOrderTableSizeNotEquals() {
         //given
-        TableGroupDto request = KitchenPosFactory.getStandardTableGroup();
+        TableGroupDto request = KitchenPosDtoFactory.getStandardTableGroup();
         given(orderTableDao.findAllByIdIn(any()))
-            .willReturn(KitchenPosFactory.getStandardOrderTables());
+            .willReturn(KitchenPosDtoFactory.getStandardOrderTables());
 
         //when
         ThrowingCallable callable = () -> tableGroupService.create(request);
@@ -87,7 +87,7 @@ class TableGroupDtoServiceTest {
     @DisplayName("요청한 테이블에 이미 그룹이 있다면 에러가 발생한다.")
     void createExceptionWithExistTableGroup() {
         //given
-        TableGroupDto request = KitchenPosFactory.getStandardTableGroup();
+        TableGroupDto request = KitchenPosDtoFactory.getStandardTableGroup();
         request.getOrderTables().get(0).setTableGroupId(2L);
         given(orderTableDao.findAllByIdIn(any())).willReturn(request.getOrderTables());
 
@@ -103,7 +103,7 @@ class TableGroupDtoServiceTest {
     void ungroup() {
         //given
         given(orderTableDao.findAllByTableGroupId(any()))
-            .willReturn(KitchenPosFactory.getStandardOrderTables());
+            .willReturn(KitchenPosDtoFactory.getStandardOrderTables());
         given(orderDao.existsByOrderTableIdInAndOrderStatusIn(any(), any())).willReturn(false);
 
         //when
@@ -118,7 +118,7 @@ class TableGroupDtoServiceTest {
     void ungroupExceptionWithOrderStatusCookingOrMeal() {
         //given
         given(orderTableDao.findAllByTableGroupId(any()))
-            .willReturn(KitchenPosFactory.getStandardOrderTables());
+            .willReturn(KitchenPosDtoFactory.getStandardOrderTables());
         given(orderDao.existsByOrderTableIdInAndOrderStatusIn(any(), any())).willReturn(true);
 
         //when

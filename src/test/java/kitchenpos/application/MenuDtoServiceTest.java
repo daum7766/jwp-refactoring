@@ -14,7 +14,7 @@ import kitchenpos.dao.MenuProductDao;
 import kitchenpos.dao.ProductDao;
 import kitchenpos.dto.MenuDto;
 import kitchenpos.dto.ProductDto;
-import kitchenpos.factory.KitchenPosFactory;
+import kitchenpos.factory.KitchenPosDtoFactory;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,8 +28,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class MenuDtoServiceTest {
 
-    private final MenuDto standardMenuDto = KitchenPosFactory.getStandardMenu();
-    private final List<MenuDto> standardMenuDtos = KitchenPosFactory.getStandardMenus();
+    private final MenuDto standardMenuDto = KitchenPosDtoFactory.getStandardMenu();
+    private final List<MenuDto> standardMenuDtos = KitchenPosDtoFactory.getStandardMenus();
 
     @Mock
     private MenuDao menuDao;
@@ -52,9 +52,9 @@ class MenuDtoServiceTest {
         //given
         given(menuGroupDao.existsById(1L)).willReturn(true);
         given(productDao.findById(1L))
-            .willReturn(Optional.of(KitchenPosFactory.getStandardProduct()));
+            .willReturn(Optional.of(KitchenPosDtoFactory.getStandardProduct()));
         given(menuDao.save(standardMenuDto)).willReturn(standardMenuDto);
-        given(menuProductDao.save(any())).willReturn(KitchenPosFactory.getStandardMenuProduct());
+        given(menuProductDao.save(any())).willReturn(KitchenPosDtoFactory.getStandardMenuProduct());
 
         //when
         MenuDto menuDto = menuService.create(standardMenuDto);
@@ -68,7 +68,7 @@ class MenuDtoServiceTest {
     @DisplayName("price 가 null 이라면 에러가 발생한다.")
     void createExceptionWithPriceNull() {
         //given
-        MenuDto request = KitchenPosFactory.getStandardMenu();
+        MenuDto request = KitchenPosDtoFactory.getStandardMenu();
         request.setPrice(null);
 
         //when
@@ -83,7 +83,7 @@ class MenuDtoServiceTest {
     @DisplayName("price 가 음수라면 에러가 발생한다.")
     void createExceptionWithPriceLessThenZero(int price) {
         //given
-        MenuDto request = KitchenPosFactory.getStandardMenu();
+        MenuDto request = KitchenPosDtoFactory.getStandardMenu();
         request.setPrice(new BigDecimal(price));
 
         //when
@@ -97,7 +97,7 @@ class MenuDtoServiceTest {
     @DisplayName("존재하지 않는 MenuGroup 이면 에러가 발생한다.")
     void createExceptionWithNotExistMenuGroup() {
         //given
-        MenuDto request = KitchenPosFactory.getStandardMenu();
+        MenuDto request = KitchenPosDtoFactory.getStandardMenu();
         request.setMenuGroupId(2L);
         given(menuGroupDao.existsById(2L)).willReturn(false);
 
@@ -112,9 +112,9 @@ class MenuDtoServiceTest {
     @DisplayName("메뉴의 가격이 모든 제품의 가격합보다 크다면 에러가 발생한다.")
     void createExceptionWithNotEqualPriceSum() {
         //given
-        MenuDto request = KitchenPosFactory.getStandardMenu();
+        MenuDto request = KitchenPosDtoFactory.getStandardMenu();
         given(menuGroupDao.existsById(request.getMenuGroupId())).willReturn(true);
-        ProductDto productDto = KitchenPosFactory.getStandardProduct();
+        ProductDto productDto = KitchenPosDtoFactory.getStandardProduct();
         productDto.setPrice(new BigDecimal(800));
         given(productDao.findById(1L)).willReturn(Optional.of(productDto));
 
@@ -131,7 +131,7 @@ class MenuDtoServiceTest {
         //given
         given(menuDao.findAll()).willReturn(standardMenuDtos);
         given(menuProductDao.findAllByMenuId(any()))
-            .willReturn(KitchenPosFactory.getStandardMenuProducts());
+            .willReturn(KitchenPosDtoFactory.getStandardMenuProducts());
 
         //when
         List<MenuDto> menuDtos = menuService.list();
@@ -139,6 +139,6 @@ class MenuDtoServiceTest {
         //then
         assertThat(menuDtos).hasSize(standardMenuDtos.size())
             .usingRecursiveComparison()
-            .isEqualTo(KitchenPosFactory.getStandardMenus());
+            .isEqualTo(KitchenPosDtoFactory.getStandardMenus());
     }
 }

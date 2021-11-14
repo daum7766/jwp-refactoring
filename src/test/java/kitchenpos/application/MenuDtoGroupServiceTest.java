@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 import kitchenpos.dao.MenuGroupDao;
 import kitchenpos.dto.MenuGroupDto;
-import kitchenpos.factory.KitchenPosFactory;
+import kitchenpos.factory.KitchenPosDtoFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,8 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class MenuDtoGroupServiceTest {
 
-    private final MenuGroupDto standardMenuGroupDto = KitchenPosFactory.getStandardMenuGroup();
-    private final List<MenuGroupDto> standardMenuGroupDtos = KitchenPosFactory.getStandardMenuGroups();
+    private final MenuGroupDto standardMenuGroupDto = KitchenPosDtoFactory.getStandardMenuGroup();
+    private final List<MenuGroupDto> standardMenuGroupDtos = KitchenPosDtoFactory.getStandardMenuGroups();
 
     @Mock
     private MenuGroupDao menuGroupDao;

@@ -4,30 +4,19 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import kitchenpos.domain.OrderStatus;
-import kitchenpos.domain.Product;
 import kitchenpos.dto.MenuDto;
 import kitchenpos.dto.MenuGroupDto;
 import kitchenpos.dto.MenuProductDto;
 import kitchenpos.dto.OrderDto;
 import kitchenpos.dto.OrderLineItemDto;
+import kitchenpos.domain.OrderStatus;
 import kitchenpos.dto.OrderTableDto;
 import kitchenpos.dto.ProductDto;
 import kitchenpos.dto.TableGroupDto;
 
-public class KitchenPosFactory {
+public class KitchenPosDtoFactory {
 
-    private KitchenPosFactory() {}
-
-    public static Product getStandardProduct() {
-        return new Product(1L, "상품이름", new BigDecimal(1000L));
-    }
-
-    public static List<Product> getStandardProducts() {
-        List<Product> standardProducts = new ArrayList<>();
-        standardProducts.add(getStandardProduct());
-        return standardProducts;
-    }
+    private KitchenPosDtoFactory() {}
 
     public static MenuGroupDto getStandardMenuGroup() {
         MenuGroupDto standardMenuGroupDto = new MenuGroupDto();
@@ -40,6 +29,20 @@ public class KitchenPosFactory {
         List<MenuGroupDto> standardMenuGroupDtos = new ArrayList<>();
         standardMenuGroupDtos.add(getStandardMenuGroup());
         return standardMenuGroupDtos;
+    }
+
+    public static ProductDto getStandardProduct() {
+        ProductDto standardProductDto = new ProductDto();
+        standardProductDto.setId(1L);
+        standardProductDto.setName("상품 이름");
+        standardProductDto.setPrice(new BigDecimal(1000));
+        return standardProductDto;
+    }
+
+    public static List<ProductDto> getStandardProducts() {
+        List<ProductDto> standardProductDtos = new ArrayList<>();
+        standardProductDtos.add(getStandardProduct());
+        return standardProductDtos;
     }
 
     public static MenuProductDto getStandardMenuProduct() {
