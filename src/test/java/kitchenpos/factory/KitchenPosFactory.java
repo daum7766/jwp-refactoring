@@ -7,7 +7,9 @@ import java.util.List;
 import kitchenpos.domain.Menu;
 import kitchenpos.domain.MenuGroup;
 import kitchenpos.domain.MenuProduct;
+import kitchenpos.domain.Order;
 import kitchenpos.domain.OrderStatus;
+import kitchenpos.domain.OrderTable;
 import kitchenpos.domain.Product;
 import kitchenpos.dto.MenuDto;
 import kitchenpos.dto.MenuProductDto;
@@ -98,19 +100,14 @@ public class KitchenPosFactory {
         return standardOrderLineItemDtos;
     }
 
-    public static OrderTableDto getStandardOrderTable() {
-        OrderTableDto standardOrderTableDto = new OrderTableDto();
-        standardOrderTableDto.setId(1L);
-        standardOrderTableDto.setTableGroupId(1L);
-        standardOrderTableDto.setEmpty(false);
-        standardOrderTableDto.setNumberOfGuests(1);
-        return standardOrderTableDto;
+    public static OrderTable getStandardOrderTable() {
+        return new OrderTable(1L, null, 1, false);
     }
 
-    public static List<OrderTableDto> getStandardOrderTables() {
-        List<OrderTableDto> standardOrderTableDtos = new ArrayList<>();
-        standardOrderTableDtos.add(getStandardOrderTable());
-        return standardOrderTableDtos;
+    public static List<OrderTable> getStandardOrderTables() {
+        List<OrderTable> standardOrderTables = new ArrayList<>();
+        standardOrderTables.add(getStandardOrderTable());
+        return standardOrderTables;
     }
 
     public static TableGroupDto getStandardTableGroup() {
