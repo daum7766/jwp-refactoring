@@ -1,6 +1,7 @@
 package kitchenpos.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -11,6 +12,7 @@ import kitchenpos.dto.OrderTableDto;
 import kitchenpos.factory.KitchenPosDtoFactory;
 import kitchenpos.factory.KitchenPosFactory;
 import kitchenpos.repository.OrderTableRepository;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -67,30 +69,30 @@ class TableServiceTest {
         OrderTableDto request = KitchenPosDtoFactory.getStandardOrderTable();
         request.setEmpty(true);
         request.setTableGroupId(null);
-        given(orderTableDao.findById(1L)).willReturn(Optional.of(request));
-        given(orderDao.existsByOrderTableIdAndOrderStatusIn(any(), any())).willReturn(false);
-        given(orderTableDao.save(request)).willReturn(request);
+
+        given(orderTableRepository.findById(1L))
+            .willReturn(Optional.of(KitchenPosFactory.getStandardOrderTable()));
+
         //when
-        OrderTableDto orderTableDto = tableService.changeEmpty(1L, standardOrderTableDto);
+        OrderTable orderTable = tableService.changeEmpty(1L, request);
 
         //then
-        assertThat(orderTableDto.isEmpty()).isFalse();
+        assertThat(orderTable.isEmpty()).isTrue();
     }
 
-//    @Test
-//    @DisplayName("존재하지 않는 테이블의 비어있는 상태를 변경할때 에러가 발생한다.")
-//    void changeEmptyExceptionWithNotExistTableId() {
-//        //given
-//        OrderTableDto request = KitchenPosDtoFactory.getStandardOrderTable();
-//        given(orderTableDao.findById(1L)).willReturn(Optional.empty());
-//
-//        //when
-//        ThrowingCallable callable = () -> tableService.changeEmpty(1L, request);
-//
-//        //then
-//        assertThatThrownBy(callable).isExactlyInstanceOf(IllegalArgumentException.class);
-//    }
-//
+    @Test
+    @DisplayName("존재하지 않는 테이블의 비어있는 상태를 변경할때 에러가 발생한다.")
+    void changeEmptyExceptionWithNotExistTableId() {
+        //given
+        OrderTableDto request = KitchenPosDtoFactory.getStandardOrderTable();
+
+        //when
+        ThrowingCallable callable = () -> tableService.changeEmpty(1L, request);
+
+        //then
+        assertThatThrownBy(callable).isExactlyInstanceOf(IllegalArgumentException.class);
+    }
+
 //    @Test
 //    @DisplayName("테이블의 비어있는 상태를 변경할때 tableGroupId 가 존재하면 에러가 발생한다.")
 //    void changeEmptyExceptionWithExistTableGroupId() {
@@ -120,23 +122,23 @@ class TableServiceTest {
 //        assertThatThrownBy(callable).isExactlyInstanceOf(IllegalArgumentException.class);
 //    }
 
-    @Test
-    @DisplayName("테이블 인원을 변경한다.")
-    void changeNumberOfGuests() {
-        //given
-        int numberOfGuests = 2;
-        OrderTableDto request = KitchenPosDtoFactory.getStandardOrderTable();
-        request.setNumberOfGuests(numberOfGuests);
-        given(orderTableDao.findById(1L))
-            .willReturn(Optional.of(KitchenPosDtoFactory.getStandardOrderTable()));
-        given(orderTableDao.save((any()))).willReturn(request);
-
-        //when
-        OrderTableDto orderTableDto = tableService.changeNumberOfGuests(1L, request);
-
-        //then
-        assertThat(orderTableDto.getNumberOfGuests()).isEqualTo(numberOfGuests);
-    }
+//    @Test
+//    @DisplayName("테이블 인원을 변경한다.")
+//    void changeNumberOfGuests() {
+//        //given
+//        int numberOfGuests = 2;
+//        OrderTableDto request = KitchenPosDtoFactory.getStandardOrderTable();
+//        request.setNumberOfGuests(numberOfGuests);
+//        given(orderTableDao.findById(1L))
+//            .willReturn(Optional.of(KitchenPosDtoFactory.getStandardOrderTable()));
+//        given(orderTableDao.save((any()))).willReturn(request);
+//
+//        //when
+//        OrderTableDto orderTableDto = tableService.changeNumberOfGuests(1L, request);
+//
+//        //then
+//        assertThat(orderTableDto.getNumberOfGuests()).isEqualTo(numberOfGuests);
+//    }
 
 //    @ParameterizedTest
 //    @ValueSource(ints = {-1, -999})
@@ -152,33 +154,37 @@ class TableServiceTest {
 //        //then
 //        assertThatThrownBy(callable).isExactlyInstanceOf(IllegalArgumentException.class);
 //    }
-//
-//    @Test
-//    @DisplayName("존재하지 않는 테이블을 변경하면 에러가 발생한다.")
-//    void changeNumberOfGuestsExceptionWithNotExistOrderTable() {
-//        //given
-//        OrderTableDto request = KitchenPosDtoFactory.getStandardOrderTable();
-//        given(orderTableDao.findById(any())).willReturn(Optional.empty());
-//
-//        //when
-//        ThrowingCallable callable = () -> tableService.changeNumberOfGuests(1L, request);
-//
-//        //then
-//        assertThatThrownBy(callable).isExactlyInstanceOf(IllegalArgumentException.class);
-//    }
-//
-//    @Test
-//    @DisplayName("비어있는 테이블을 변경하면 에러가 발생한다.")
-//    void changeNumberOfGuestsExceptionWithEmpty() {
-//        //given
-//        OrderTableDto request = KitchenPosDtoFactory.getStandardOrderTable();
-//        request.setEmpty(true);
-//        given(orderTableDao.findById(any())).willReturn(Optional.of(request));
-//
-//        //when
-//        ThrowingCallable callable = () -> tableService.changeNumberOfGuests(1L, request);
-//
-//        //then
-//        assertThatThrownBy(callable).isExactlyInstanceOf(IllegalArgumentException.class);
-//    }
+
+    @Test
+    @DisplayName("존재하지 않는 테이블을 변경하면 에러가 발생한다.")
+    void changeNumberOfGuestsExceptionWithNotExistOrderTable() {
+        //given
+        OrderTableDto request = KitchenPosDtoFactory.getStandardOrderTable();
+
+        //when
+        ThrowingCallable callable = () -> tableService.changeNumberOfGuests(1L, request);
+
+        //then
+        assertThatThrownBy(callable).isExactlyInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("비어있는 테이블을 변경하면 에러가 발생한다.")
+    void changeNumberOfGuestsExceptionWithEmpty() {
+        //given
+        OrderTableDto request = KitchenPosDtoFactory.getStandardOrderTable();
+        request.setEmpty(true);
+
+        OrderTable orderTable = new OrderTable.Builder()
+            .empty(true)
+            .build();
+
+        given(orderTableRepository.findById(any())).willReturn(Optional.of(orderTable));
+
+        //when
+        ThrowingCallable callable = () -> tableService.changeNumberOfGuests(1L, request);
+
+        //then
+        assertThatThrownBy(callable).isExactlyInstanceOf(IllegalArgumentException.class);
+    }
 }

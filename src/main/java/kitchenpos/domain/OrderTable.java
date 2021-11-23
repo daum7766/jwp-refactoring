@@ -31,16 +31,21 @@ public class OrderTable {
     }
 
     public OrderTable(int numberOfGuests, boolean empty) {
-        this(null, null, numberOfGuests, empty);
+        this(null, null, null, numberOfGuests, empty);
     }
 
-    public OrderTable(TableGroup tableGroup, int numberOfGuests, boolean empty) {
-        this(null, tableGroup, numberOfGuests, empty);
+    private OrderTable(Builder builder) {
+        this(builder.id,
+            builder.tableGroup,
+            builder.order,
+            builder.numberOfGuests,
+            builder.empty);
     }
 
-    public OrderTable(Long id, TableGroup tableGroup, int numberOfGuests, boolean empty) {
+    public OrderTable(Long id, TableGroup tableGroup, Order order, int numberOfGuests, boolean empty) {
         this.id = id;
         this.tableGroup = tableGroup;
+        this.order = order;
         this.numberOfGuests = numberOfGuests;
         this.empty = empty;
     }
@@ -107,5 +112,43 @@ public class OrderTable {
 
     public Order getOrder() {
         return order;
+    }
+
+    public static class Builder {
+
+        private Long id;
+        private TableGroup tableGroup;
+        private Order order;
+        private int numberOfGuests;
+        private boolean empty;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder tableGroup(TableGroup tableGroup) {
+            this.tableGroup = tableGroup;
+            return this;
+        }
+
+        public Builder order(Order order) {
+            this.order = order;
+            return this;
+        }
+
+        public Builder numberOfGuests(int numberOfGuests) {
+            this.numberOfGuests = numberOfGuests;
+            return this;
+        }
+
+        public Builder empty(boolean empty) {
+            this.empty = empty;
+            return this;
+        }
+
+        public OrderTable build() {
+            return new OrderTable(this);
+        }
     }
 }

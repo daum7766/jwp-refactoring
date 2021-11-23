@@ -33,7 +33,7 @@ public class TableService {
     @Transactional
     public OrderTable changeEmpty(final Long orderTableId, final OrderTableDto orderTableDto) {
         OrderTable orderTable = orderTableRepository.findById(orderTableId)
-            .orElseThrow(IllegalAccessError::new);
+            .orElseThrow(IllegalArgumentException::new);
 
         orderTable.changeEmpty(orderTableDto.isEmpty());
 

@@ -11,12 +11,8 @@ import kitchenpos.domain.Order;
 import kitchenpos.domain.OrderStatus;
 import kitchenpos.domain.OrderTable;
 import kitchenpos.domain.Product;
-import kitchenpos.dto.MenuDto;
-import kitchenpos.dto.MenuProductDto;
 import kitchenpos.dto.OrderDto;
 import kitchenpos.dto.OrderLineItemDto;
-import kitchenpos.dto.OrderTableDto;
-import kitchenpos.dto.TableGroupDto;
 
 public class KitchenPosFactory {
 
@@ -69,20 +65,14 @@ public class KitchenPosFactory {
         return standardMenus;
     }
 
-    public static OrderDto getStandardOrder() {
-        OrderDto standardOrderDto = new OrderDto();
-        standardOrderDto.setId(1L);
-        standardOrderDto.setOrderTableId(1L);
-        standardOrderDto.setOrderedTime(LocalDateTime.now());
-        standardOrderDto.setOrderLineItems(getStandardOrderLineItems());
-        standardOrderDto.setOrderStatus(OrderStatus.COOKING.name());
-        return standardOrderDto;
+    public static Order getStandardOrder() {
+        return new Order(1L, OrderStatus.COMPLETION);
     }
 
-    public static List<OrderDto> getStandardOrders() {
-        List<OrderDto> standardOrderDtos = new ArrayList<>();
-        standardOrderDtos.add(getStandardOrder());
-        return standardOrderDtos;
+    public static List<Order> getStandardOrders() {
+        List<Order> standardOrders = new ArrayList<>();
+        standardOrders.add(getStandardOrder());
+        return standardOrders;
     }
 
     public static OrderLineItemDto getStandardOrderLineItem() {
@@ -101,7 +91,12 @@ public class KitchenPosFactory {
     }
 
     public static OrderTable getStandardOrderTable() {
-        return new OrderTable(1L, null, 1, false);
+        return new OrderTable.Builder()
+            .id(1L)
+            .numberOfGuests(1)
+            .empty(false)
+            .order(getStandardOrder())
+            .build();
     }
 
     public static List<OrderTable> getStandardOrderTables() {
@@ -110,21 +105,21 @@ public class KitchenPosFactory {
         return standardOrderTables;
     }
 
-    public static TableGroupDto getStandardTableGroup() {
-        List<OrderTableDto> standardOrderTableDtos = getStandardOrderTables();
-        OrderTableDto standardOrderTableDto = getStandardOrderTable();
-        standardOrderTableDto.setId(2L);
-        standardOrderTableDto.setTableGroupId(null);
-        standardOrderTableDto.setEmpty(true);
-        standardOrderTableDtos.get(0).setEmpty(true);
-        standardOrderTableDtos.get(0).setTableGroupId(null);
-        standardOrderTableDtos.add(standardOrderTableDto);
-
-        TableGroupDto standardTableGroupDto = new TableGroupDto();
-        standardTableGroupDto.setId(1L);
-
-        standardTableGroupDto.setOrderTables(standardOrderTableDtos);
-        standardTableGroupDto.setCreatedDate(LocalDateTime.now());
-        return standardTableGroupDto;
-    }
+//    public static TableGroupDto getStandardTableGroup() {
+//        List<OrderTableDto> standardOrderTableDtos = getStandardOrderTables();
+//        OrderTableDto standardOrderTableDto = getStandardOrderTable();
+//        standardOrderTableDto.setId(2L);
+//        standardOrderTableDto.setTableGroupId(null);
+//        standardOrderTableDto.setEmpty(true);
+//        standardOrderTableDtos.get(0).setEmpty(true);
+//        standardOrderTableDtos.get(0).setTableGroupId(null);
+//        standardOrderTableDtos.add(standardOrderTableDto);
+//
+//        TableGroupDto standardTableGroupDto = new TableGroupDto();
+//        standardTableGroupDto.setId(1L);
+//
+//        standardTableGroupDto.setOrderTables(standardOrderTableDtos);
+//        standardTableGroupDto.setCreatedDate(LocalDateTime.now());
+//        return standardTableGroupDto;
+//    }
 }

@@ -15,19 +15,23 @@ public class Order {
     @Id
     private Long id;
 
-    @OneToOne
-    @JoinColumn
-    private OrderTable orderTable;
-
-    private String orderStatus;
+    private OrderStatus orderStatus;
 
     @CreationTimestamp
     private LocalDateTime orderedTime;
 
-    private List<OrderLineItemDto> orderLineItemDtos;
+//    private List<OrderLineItemDto> orderLineItemDtos;
+
+
+    public Order() {
+    }
+
+    public Order(Long id, OrderStatus orderStatus) {
+        this.id = id;
+        this.orderStatus = orderStatus;
+    }
 
     public boolean isNotCompletion() {
         return !OrderStatus.COMPLETION.equals(orderStatus);
     }
-
 }
